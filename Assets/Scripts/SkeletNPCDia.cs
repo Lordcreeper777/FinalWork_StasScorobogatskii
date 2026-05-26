@@ -16,8 +16,8 @@ public class SkeletNPCDia : MonoBehaviour
     public string dialogueWithKey = "You found the key!";
     public string dialogueFreed = "The gate in the cave is now open, go help the others!";
     public float popDuration = 0.2f;
-    public float typeSpeed = 0.05f;
-    public float freeDelay = 1f;
+    public float typeSpeed = 0.02f;
+    public float freeDelay = 0f;
 
     private bool playerInRange = false;
 
@@ -49,8 +49,16 @@ public class SkeletNPCDia : MonoBehaviour
         {
             playerInRange = false;
             StopAllCoroutines();
-            StartCoroutine(PopOut());
+            freePopup.transform.localScale = Vector3.zero;
             freePopup.SetActive(false);
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine(PopOut());
+            }
+            else
+            {
+                speechBubble.SetActive(false);
+            }
         }
     }
 
@@ -73,23 +81,42 @@ public class SkeletNPCDia : MonoBehaviour
             yield return new WaitForSeconds(typeSpeed);
         }
 
-        // Show popup if player has key
         if (GameManager.instance.hasKey && !GameManager.instance.npcFreed)
         {
             yield return new WaitForSeconds(freeDelay);
             popupText.text = "Give the key and free the skeleton?";
             freePopup.SetActive(true);
+            StartCoroutine(PopupScaleIn());
         }
+    }
+
+    IEnumerator PopupScaleIn()
+    {
+        yesButton.interactable = false;
+        noButton.interactable = false;
+        float t = 0f;
+        freePopup.transform.localScale = Vector3.zero;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / popDuration;
+            freePopup.transform.localScale = Vector3.Lerp(Vector3.zero, new Vector3(0.002f, 0.002f, 0.002f), t);
+            yield return null;
+        }
+        freePopup.transform.localScale = new Vector3(0.002f, 0.002f, 0.002f);
+        yesButton.interactable = true;
+        noButton.interactable = true;
     }
 
     void OnYesClicked()
     {
+        freePopup.transform.localScale = Vector3.zero;
         freePopup.SetActive(false);
         StartCoroutine(FreeNPC());
     }
 
     void OnNoClicked()
     {
+        freePopup.transform.localScale = Vector3.zero;
         freePopup.SetActive(false);
     }
 
@@ -101,7 +128,6 @@ public class SkeletNPCDia : MonoBehaviour
             dialogueText.text += letter;
             yield return new WaitForSeconds(typeSpeed);
         }
-
         GameManager.instance.npcFreed = true;
     }
 
