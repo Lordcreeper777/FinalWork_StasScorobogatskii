@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public Transform respawnPoint;
     public bool hasKey = false;
+    public bool npcFreed = false;
 
     void Awake()
     {

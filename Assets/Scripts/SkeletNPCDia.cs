@@ -1,15 +1,25 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 public class SkeletNPCDia : MonoBehaviour
 {
     public GameObject speechBubble;
     public TMP_Text dialogueText;
+    public GameObject freePopup;
+    public TMP_Text popupText;
+    public Button yesButton;
+    public Button noButton;
+
     public string dialogue = "I am chained here... please find the key and free me!";
-    public string dialogueWithKey = "You found the key! Please free me!";
+    public string dialogueWithKey = "You found the key!";
+    public string dialogueFreed = "The gate in the cave is now open, go help the others!";
     public float popDuration = 0.2f;
     public float typeSpeed = 0.05f;
+    public float freeDelay = 1f;
+
+    private bool playerInRange = false;
 
     void Start()
     {
@@ -17,12 +27,17 @@ public class SkeletNPCDia : MonoBehaviour
         dialogueText.text = dialogue;
         speechBubble.transform.localScale = Vector3.zero;
         speechBubble.SetActive(false);
+        freePopup.SetActive(false);
+
+        yesButton.onClick.AddListener(OnYesClicked);
+        noButton.onClick.AddListener(OnNoClicked);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
+            playerInRange = true;
             speechBubble.SetActive(true);
             StartCoroutine(PopIn());
         }
@@ -32,8 +47,10 @@ public class SkeletNPCDia : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            playerInRange = false;
             StopAllCoroutines();
             StartCoroutine(PopOut());
+            freePopup.SetActive(false);
         }
     }
 
@@ -55,6 +72,37 @@ public class SkeletNPCDia : MonoBehaviour
             dialogueText.text += letter;
             yield return new WaitForSeconds(typeSpeed);
         }
+
+        // Show popup if player has key
+        if (GameManager.instance.hasKey && !GameManager.instance.npcFreed)
+        {
+            yield return new WaitForSeconds(freeDelay);
+            popupText.text = "Give the key and free the skeleton?";
+            freePopup.SetActive(true);
+        }
+    }
+
+    void OnYesClicked()
+    {
+        freePopup.SetActive(false);
+        StartCoroutine(FreeNPC());
+    }
+
+    void OnNoClicked()
+    {
+        freePopup.SetActive(false);
+    }
+
+    IEnumerator FreeNPC()
+    {
+        dialogueText.text = "";
+        foreach (char letter in dialogueFreed)
+        {
+            dialogueText.text += letter;
+            yield return new WaitForSeconds(typeSpeed);
+        }
+
+        GameManager.instance.npcFreed = true;
     }
 
     IEnumerator PopOut()
