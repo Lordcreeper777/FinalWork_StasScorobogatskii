@@ -12,11 +12,13 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
 
     private Rigidbody2D rb;
+    private Animator anim;
     private bool isGrounded;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -27,16 +29,18 @@ public class PlayerMovement : MonoBehaviour
             groundLayer
         );
 
-        
-
         float moveInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
 
         // Flip character direction
         if (moveInput > 0)
-    transform.localScale = new Vector3(0.4f, 0.4f, 1f);
-else if (moveInput < 0)
-    transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
+            transform.localScale = new Vector3(0.4f, 0.4f, 1f);
+        else if (moveInput < 0)
+            transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
+
+        // Switch animation
+        anim.SetBool("isWalking", moveInput != 0);
+        Debug.Log("isWalking: " + (moveInput != 0));
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
