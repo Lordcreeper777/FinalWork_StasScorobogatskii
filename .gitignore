@@ -50,6 +50,9 @@ ExportedObj/
 *.opendb
 *.VC.db
 
+# macOS
+.DS_Store
+
 # Unity3D generated meta files
 *.pidb.meta
 *.pdb.meta
@@ -75,3 +78,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # End of https://www.toptal.com/developers/gitignore/api/unity
+
