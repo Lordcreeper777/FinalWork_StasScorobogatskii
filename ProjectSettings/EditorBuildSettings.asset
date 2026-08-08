@@ -7,10 +7,13 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/StartScreen.unity
-    guid: 00367fe062d3a408a8000524458ea7d6
+    guid: 4cbe04471ebe24241901b58377064ab8
   - enabled: 1
-    path: Assets/Scenes/Controls.unity
-    guid: 58c4d68435e9c48ab830da1aedec0bcd
+    path: Assets/Scenes/QuoteStart.unity
+    guid: 103c22a96d3114a40bbfe9af64973635
+  - enabled: 1
+    path: Assets/Scenes/Openingscene.unity
+    guid: 7c816b5244f4c465d95e1a4ef35fa90b
   - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 77da97c65c90a4f85ac0de73961d6d77

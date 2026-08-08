@@ -1,45 +1,65 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using System.Collections;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class SceneTransition : MonoBehaviour
 {
-    public Image fadeImage;
-    public float fadeDuration = 1.5f;
-    public string nextScene;
+    public float fadeDuration = 1f;
+    public bool fadeInOnStart = false;
 
-    void Start()
+    private CanvasGroup canvasGroup;
+    private bool isTransitioning = false;
+
+    private void Awake()
     {
-        StartCoroutine(FadeIn());
+        canvasGroup = GetComponent<CanvasGroup>();
     }
 
-    public void LoadNextScene()
+    private void Start()
     {
-        StartCoroutine(FadeOut());
-    }
-
-    IEnumerator FadeIn()
-    {
-        float t = 1f;
-        while (t > 0f)
+        if (fadeInOnStart)
         {
-            t -= Time.deltaTime / fadeDuration;
-            fadeImage.color = new Color(0, 0, 0, t);
+            canvasGroup.alpha = 1f;
+            StartCoroutine(FadeIn());
+        }
+        else
+        {
+            canvasGroup.alpha = 0f;
+        }
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        if (!isTransitioning)
+        {
+            StartCoroutine(FadeOutAndLoad(sceneName));
+        }
+    }
+
+    private IEnumerator FadeIn()
+    {
+        while (canvasGroup.alpha > 0f)
+        {
+            canvasGroup.alpha -= Time.unscaledDeltaTime / fadeDuration;
             yield return null;
         }
-        fadeImage.color = new Color(0, 0, 0, 0);
+
+        canvasGroup.alpha = 0f;
     }
 
-    IEnumerator FadeOut()
+    private IEnumerator FadeOutAndLoad(string sceneName)
     {
-        float t = 0f;
-        while (t < 1f)
+        isTransitioning = true;
+
+        while (canvasGroup.alpha < 1f)
         {
-            t += Time.deltaTime / fadeDuration;
-            fadeImage.color = new Color(0, 0, 0, t);
+            canvasGroup.alpha += Time.unscaledDeltaTime / fadeDuration;
             yield return null;
         }
-        SceneManager.LoadScene(nextScene);
+
+        canvasGroup.alpha = 1f;
+
+        SceneManager.LoadScene(sceneName);
     }
 }
