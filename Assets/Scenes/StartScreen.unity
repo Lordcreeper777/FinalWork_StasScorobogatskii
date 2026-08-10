@@ -436,6 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 2
+  fadeInOnStart: 0
 --- !u!225 &373329318
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2568,6 +2569,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2085555737}
   - component: {fileID: 2085555736}
+  - component: {fileID: 2085555738}
   m_Layer: 0
   m_Name: MenuMusic
   m_TagString: Untagged
@@ -2686,6 +2688,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2085555738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085555735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4741c68e2e9c44cdeb016fd16ecd2fee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2146908534
 GameObject:
   m_ObjectHideFlags: 0
