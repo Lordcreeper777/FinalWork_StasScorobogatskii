@@ -8,6 +8,8 @@ public class SceneTransition : MonoBehaviour
     public float fadeDuration = 1f;
     public bool fadeInOnStart = false;
 
+    public AudioSource menuMusic;
+
     private CanvasGroup canvasGroup;
     private bool isTransitioning = false;
 
@@ -59,6 +61,13 @@ public class SceneTransition : MonoBehaviour
         }
 
         canvasGroup.alpha = 1f;
+
+        // Stop start screen music
+        if (menuMusic != null)
+        {
+            menuMusic.Stop();
+        }
+        AudioListener.volume = 1f;
 
         SceneManager.LoadScene(sceneName);
     }
