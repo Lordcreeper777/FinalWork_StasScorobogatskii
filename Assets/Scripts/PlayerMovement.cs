@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator anim;
+    private PlayerAudio playerAudio;
 
     private bool isGrounded;
     private bool animatorReady;
@@ -22,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        playerAudio = GetComponent<PlayerAudio>();
 
         animatorReady = false;
 
@@ -47,14 +49,22 @@ public class PlayerMovement : MonoBehaviour
 
         moveInput = Input.GetAxisRaw("Horizontal");
 
+        // Jump
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             rb.velocity = new Vector2(
                 rb.velocity.x,
                 jumpForce
             );
+
+            playerAudio.PlayJump();
         }
 
+        // Running sound
+        bool isRunning = moveInput != 0 && isGrounded;
+        playerAudio.SetRunning(isRunning);
+
+        // Flip player
         if (moveInput > 0)
         {
             transform.localScale = new Vector3(0.4f, 0.4f, 1f);
@@ -64,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-0.4f, 0.4f, 1f);
         }
 
+        // Animations
         if (animatorReady)
         {
             anim.SetBool("isWalking", moveInput != 0);

@@ -18,29 +18,40 @@ public class LockCutscene : MonoBehaviour
         cutsceneObject.SetActive(false);
         videoPlayer.loopPointReached += OnVideoFinished;
     }
+    private void Update()
+{
+    if (Input.GetKeyDown(KeyCode.JoystickButton2))
+    {
+        TryInteract();
+    }
+}
 
     private void OnMouseDown()
-    {
-        if (alreadyUsed)
-            return;
+{
+    TryInteract();
+}
 
-        if (!GameManager.instance.hasKey)
-            return;
 
-        if (!npcDialogue.PlayerInRange)
-            return;
+private void TryInteract()
+{
+    if (alreadyUsed)
+        return;
 
-        alreadyUsed = true;
+    if (!GameManager.instance.hasKey)
+        return;
 
-        speechBubble.SetActive(false);
+    if (!npcDialogue.PlayerInRange)
+        return;
 
-        // Pause normal game audio
-        AudioListener.pause = true;
+    alreadyUsed = true;
 
-        // Show and play the cutscene
-        cutsceneObject.SetActive(true);
-        videoPlayer.Play();
-    }
+    speechBubble.SetActive(false);
+
+    AudioListener.pause = true;
+
+    cutsceneObject.SetActive(true);
+    videoPlayer.Play();
+}
 
     private void OnVideoFinished(VideoPlayer vp)
     {

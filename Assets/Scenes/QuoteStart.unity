@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 129026572}
   - component: {fileID: 129026571}
   - component: {fileID: 129026570}
+  - component: {fileID: 129026573}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -191,6 +192,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &129026573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129026569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d24b8a21471f49688336bd95eaa9033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstButton: {fileID: 1677879595}
 --- !u!1 &352812289
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,6 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeDuration: 2
   fadeInOnStart: 1
+  menuMusic: {fileID: 0}
 --- !u!225 &645060532
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -957,6 +972,7 @@ GameObject:
   - component: {fileID: 1677879599}
   - component: {fileID: 1677879598}
   - component: {fileID: 1677879597}
+  - component: {fileID: 1677879602}
   m_Layer: 5
   m_Name: ContinueButton
   m_TagString: Untagged
@@ -996,6 +1012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5ca3a282961243d4bc4086e410cf80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverDecoration: {fileID: 1265633533}
   hoverScale: 1.1
   speed: 8
   buttonText: {fileID: 0}
@@ -1013,7 +1030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95729749569c4114ae2d3255818be64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverDecoration: {fileID: 1265633533}
+  hoverDecoration: {fileID: 0}
   audioSource: {fileID: 1938592785}
   hoverSound: {fileID: 8300000, guid: 161ca4d1557594264b79a785394a3296, type: 3}
   clickSound: {fileID: 8300000, guid: 375518bce549c4ec8928f5f751091d68, type: 3}
@@ -1170,6 +1187,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1677879595}
   m_CullTransparentMesh: 1
+--- !u!114 &1677879602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677879595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c3ff5c4910944100a623aed0d457c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverDecoration: {fileID: 0}
+  audioSource: {fileID: 1938592785}
+  hoverSound: {fileID: 8300000, guid: 161ca4d1557594264b79a785394a3296, type: 3}
+  clickSound: {fileID: 8300000, guid: 375518bce549c4ec8928f5f751091d68, type: 3}
 --- !u!1 &1873594704
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,8 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) ||
+    Input.GetKeyDown(KeyCode.JoystickButton9))
         {
             if (isPaused)
                 ResumeGame();
@@ -19,7 +20,9 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void PauseGame()
+    
     {
+        Debug.Log("PAUSE BUTTON WORKED");
         pauseMenu.SetActive(true);
         pauseButton.SetActive(false);
 
