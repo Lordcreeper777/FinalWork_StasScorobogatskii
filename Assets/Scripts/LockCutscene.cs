@@ -5,53 +5,76 @@ public class LockCutscene : MonoBehaviour
 {
     public SkeletNPCDia npcDialogue;
     public GameObject speechBubble;
+
     public GameObject cutsceneObject;
     public VideoPlayer videoPlayer;
 
-    // Drag NPC-Folder here in the Inspector
     public GameObject npcRoot;
+
+    [Header("WebGL Video")]
+    public string webGLVideoFileName = "MrBones_CutScene.mp4";
 
     private bool alreadyUsed = false;
 
     private void Start()
     {
         cutsceneObject.SetActive(false);
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+
+        videoPlayer.source = VideoSource.Url;
+
+        videoPlayer.url =
+            Application.streamingAssetsPath + "/" + webGLVideoFileName;
+
+        videoPlayer.audioOutputMode = VideoAudioOutputMode.Direct;
+
+        videoPlayer.controlledAudioTrackCount = 1;
+        videoPlayer.EnableAudioTrack(0, true);
+
+#endif
+
         videoPlayer.loopPointReached += OnVideoFinished;
     }
+
     private void Update()
-{
-    if (Input.GetKeyDown(KeyCode.JoystickButton2))
+    {
+        // Circle button on controller
+        if (Input.GetKeyDown(KeyCode.JoystickButton2))
+        {
+            TryInteract();
+        }
+    }
+
+    private void OnMouseDown()
     {
         TryInteract();
     }
-}
 
-    private void OnMouseDown()
-{
-    TryInteract();
-}
+    private void TryInteract()
+    {
+        if (alreadyUsed)
+            return;
 
+        if (!GameManager.instance.hasKey)
+            return;
 
-private void TryInteract()
-{
-    if (alreadyUsed)
-        return;
+        if (!npcDialogue.PlayerInRange)
+            return;
 
-    if (!GameManager.instance.hasKey)
-        return;
+        alreadyUsed = true;
 
-    if (!npcDialogue.PlayerInRange)
-        return;
+        speechBubble.SetActive(false);
 
-    alreadyUsed = true;
+        // Pause normal game audio
+        AudioListener.pause = true;
 
-    speechBubble.SetActive(false);
+        // Show cutscene
+        cutsceneObject.SetActive(true);
 
-    AudioListener.pause = true;
-
-    cutsceneObject.SetActive(true);
-    videoPlayer.Play();
-}
+        // Play video
+        videoPlayer.Play();
+    }
 
     private void OnVideoFinished(VideoPlayer vp)
     {
@@ -64,7 +87,7 @@ private void TryInteract()
         // Hide cutscene
         cutsceneObject.SetActive(false);
 
-        // Remove the whole NPC setup
+        // Remove NPC setup
         npcRoot.SetActive(false);
     }
 
